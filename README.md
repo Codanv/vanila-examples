@@ -1,4 +1,4 @@
-# Vanila Examples
+# vanila-examples
 HTML CSS and Javascript Examples
 
 - Number System Convertor
