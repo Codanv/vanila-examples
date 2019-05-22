@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="widthvice-widthnitial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Tic Tac Toe - a corner game</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- game layout -->
+    <div id="container">
+      <h1>Tic Tac Toe</h1>
+      <div id="layout">
+        <div onclick="showOAndX(this)" id="0" class="box"></div>
+        <div onclick="showOAndX(this)" id="1" class="box"></div>
+        <div onclick="showOAndX(this)" id="2" class="box"></div>
+        <div onclick="showOAndX(this)" id="3" class="box"></div>
+        <div onclick="showOAndX(this)" id="4" class="box"></div>
+        <div onclick="showOAndX(this)" id="5" class="box"></div>
+        <div onclick="showOAndX(this)" id="6" class="box"></div>
+        <div onclick="showOAndX(this)" id="7" class="box"></div>
+        <div onclick="showOAndX(this)" id="8" class="box"></div>
+      </div>
+      <div class="player">
+        Tern :
+        <span id="player">X</span>
+      </div>
+      <div id="status">Winner? <a href="./tic-tac-toe.html">restart</a></div>
+    </div>
+
+    <script>
+      'use strict';
+
+      var options = [];
+      var player1 = 'X';
+      var player2 = 'O';
+      var tern1 = true;
+      var tern2 = false;
+      var isGameOver = false;
+      var player = document.getElementById('player');
+
+      function showOAndX(boxEle) {
+        if (boxEle.innerHTML !== '') {
+          return;
+        }
+
+        if (!isGameOver) {
+          if (tern1) {
+            boxEle.innerHTML = player1;
+            options[parseInt(boxEle.id)] = player1;
+            player.innerHTML = player2;
+            // console.log(options, isGameOver);
+            isWinner();
+            tern1 = false;
+            tern2 = true;
+            return;
+          }
+
+          if (tern2) {
+            boxEle.innerHTML = player2;
+            options[parseInt(boxEle.id)] = player2;
+            // console.log(options, isGameOver);
+            player.innerHTML = player1;
+            isWinner();
+            tern2 = false;
+            tern1 = true;
+            return;
+          }
+        }
+      } // close of showOAndX function
+
+      function isWinner() {
+        var status = document.getElementById('status');
+
+        if (winner() == player1) {
+          isGameOver = true;
+          status.innerHTML =
+            player1 +
+            " is the winner! <a href='./tic-tac-toe.html'>play again</a>";
+        } else if (winner() == player2) {
+          isGameOver = true;
+          status.innerHTML =
+            player2 +
+            " is the winner! <a href='./tic-tac-toe.html'>play again</a>";
+        }
+      }
+
+      function winner() {
+        if (
+          isPlayer1(0, 1, 2) ||
+          isPlayer1(3, 4, 5) ||
+          isPlayer1(6, 7, 8) ||
+          isPlayer1(0, 3, 6) ||
+          isPlayer1(1, 4, 7) ||
+          isPlayer1(2, 5, 8) ||
+          isPlayer1(2, 4, 6) ||
+          isPlayer1(0, 4, 8)
+        ) {
+          return player1;
+        } else if (
+          isPlayer2(0, 1, 2) ||
+          isPlayer2(3, 4, 5) ||
+          isPlayer2(6, 7, 8) ||
+          isPlayer2(0, 3, 6) ||
+          isPlayer2(1, 4, 7) ||
+          isPlayer2(2, 5, 8) ||
+          isPlayer2(2, 4, 6) ||
+          isPlayer2(0, 4, 8)
+        ) {
+          return player2;
+        }
+      }
+
+      function isPlayer1(b1, b2, b3) {
+        if (
+          options[b1] == player1 &&
+          options[b2] == player1 &&
+          options[b3] == player1
+        ) {
+          greenify(b1, b2, b3);
+          return true;
+        }
+      }
+
+      function isPlayer2(b1, b2, b3) {
+        if (
+          options[b1] == player2 &&
+          options[b2] == player2 &&
+          options[b3] == player2
+        ) {
+          greenify(b1, b2, b3);
+          return true;
+        }
+      }
+
+      function greenify(b1, b2, b3) {
+        let color = 'green';
+
+        document.getElementById('' + b1).style.color = color;
+        document.getElementById('' + b2).style.color = color;
+        document.getElementById('' + b3).style.color = color;
+      }
+    </script>
+  </body>
+</html>

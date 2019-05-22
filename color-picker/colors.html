@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>C@pi - To pick Html hexadecimal color code</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      #container {
+        width: 40%;
+        padding: 10px;
+        margin: 0 auto;
+        margin-top: 20px;
+        text-align: center;
+        border-radius: 15px;
+        font-family: sans-serif;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-color: whitesmoke;
+        box-shadow: 10px 10px 8px rgb(167, 231, 125);
+      }
+
+      #rgb-display {
+        margin-top: 10px;
+        padding: 20px;
+        font-size: 200%;
+        background-color: rgb(167, 231, 125);
+      }
+
+      .slide {
+        margin-top: 10px;
+      }
+
+      .slide input {
+        cursor: move;
+        outline: none;
+      }
+
+      #hexa-color-code {
+        border: none;
+        outline: none;
+        font-size: 110%;
+        font-family: 'Courier New', Courier, monospace;
+        text-align: center;
+        cursor: default;
+        display: inline-block;
+        background-color: whitesmoke;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container" onclick="copyText()" title="Click to copy">
+      <h1 title="256^3">C@pi [16, 777, 216]</h1>
+      <div id="rgb-display">
+        <p>
+          rgb(<span id="red-text" title="Red">167</span>,
+          <span id="green-text" title="Green">231</span>,
+          <span id="blue-text" title="Blue">125</span>)
+        </p>
+      </div>
+
+      <div class="slide">
+        <p title="0 to 255">Red</p>
+        <input
+          id="r-value"
+          type="range"
+          value="167"
+          max="255"
+          min="0"
+          onchange="changeRGBColor()"
+          oninput="changeRGBColor()"
+          title=""
+        />
+        <p id="r-text">167</p>
+      </div>
+
+      <div class="slide">
+        <p title="0 to 255">Green</p>
+        <input
+          id="g-value"
+          type="range"
+          value="231"
+          max="255"
+          min="0"
+          onchange="changeRGBColor()"
+          oninput="changeRGBColor()"
+          title=""
+        />
+        <p id="g-text">231</p>
+      </div>
+
+      <div class="slide">
+        <p title="0 to 255">Blue</p>
+        <input
+          id="b-value"
+          type="range"
+          value="125"
+          max="255"
+          min="0"
+          onchange="changeRGBColor()"
+          oninput="changeRGBColor()"
+          title=""
+        />
+        <p id="b-text">125</p>
+      </div>
+
+      <div id="hexa" style="margin-top: 10px;">
+        <input
+          readonly
+          type="text"
+          title=""
+          id="hexa-color-code"
+          value="#7a7ed7"
+        />
+      </div>
+    </div>
+
+    <script>
+      function changeRGBColor() {
+        var red = document.getElementById('r-value').value;
+        var green = document.getElementById('g-value').value;
+        var blue = document.getElementById('b-value').value;
+
+        document.getElementById('r-text').innerHTML = red;
+        document.getElementById('g-text').innerHTML = green;
+        document.getElementById('b-text').innerHTML = blue;
+
+        document.getElementById('red-text').innerHTML = red;
+        document.getElementById('green-text').innerHTML = green;
+        document.getElementById('blue-text').innerHTML = blue;
+
+        document.getElementById(
+          'rgb-display'
+        ).style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+
+        var hexCode =
+          '#' +
+          changeToHexadecimal(red) +
+          changeToHexadecimal(green) +
+          changeToHexadecimal(blue);
+        document.getElementById('hexa-color-code').value = hexCode;
+
+        document.getElementById(
+          'container'
+        ).style.boxShadow = `10px 10px 8px rgb(${red}, ${green}, ${blue})`;
+
+        document.getElementById('container').title = 'Copied ' + hexCode;
+      }
+
+      function changeToHexadecimal(decimal) {
+        decimal = parseInt(decimal);
+        var remainder;
+        var hexadecimal = '';
+
+        if (decimal === 0) hexadecimal += '0';
+
+        while (decimal > 0) {
+          remainder = decimal % 16;
+
+          if (remainder === 10) hexadecimal += 'a';
+          else if (remainder === 11) hexadecimal += 'b';
+          else if (remainder === 12) hexadecimal += 'c';
+          else if (remainder === 13) hexadecimal += 'd';
+          else if (remainder === 14) hexadecimal += 'e';
+          else if (remainder === 15) hexadecimal += 'f';
+          else hexadecimal += remainder;
+
+          decimal = Math.floor(decimal / 16);
+        }
+        return hexadecimal;
+      }
+
+      function copyText() {
+        var textToCopy = document.getElementById('hexa-color-code');
+        textToCopy.select();
+        document.execCommand('copy');
+      }
+    </script>
+  </body>
+</html>

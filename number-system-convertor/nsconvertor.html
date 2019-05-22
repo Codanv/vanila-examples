@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Number System</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      #container {
+        width: 40%;
+        height: auto;
+        padding: 15px;
+        margin: 0 auto;
+        margin-top: 50px;
+        user-select: none;
+        color: mediumblue;
+        border-radius: 10px;
+        -moz-user-select: none;
+        font-family: sans-serif;
+        background-color: lightblue;
+        box-shadow: 10px 10px 8px black;
+      }
+
+      #container div {
+        margin-top: 10px;
+      }
+
+      h1 {
+        text-shadow: 4px 4px 10px white;
+      }
+
+      input {
+        width: 100%;
+        color: mediumblue;
+      }
+
+      .err {
+        color: red;
+        float: right;
+        font-family: 'Courier New', Courier, monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <h1 style="text-align: center;">-: Number System :-</h1>
+
+      <div>
+        <p>Decimal [10] <span class="err" id="dError"></span></p>
+        <input
+          type="text"
+          id="decimal"
+          onkeyup="fromDecimal(this.value)"
+          onclick="copyText(this)"
+        />
+      </div>
+      <div>
+        <p>Binary [2] <span class="err" id="bError"></span></p>
+        <input
+          type="text"
+          id="binary"
+          onkeyup="fromBinary(this.value)"
+          onclick="copyText(this)"
+        />
+      </div>
+      <div>
+        <p>Octal [8] <span class="err" id="oError"></span></p>
+        <input
+          type="text"
+          id="octal"
+          onkeyup="fromOctal(this.value)"
+          onclick="copyText(this)"
+        />
+      </div>
+      <div>
+        <p>Hexadecimal [16] <span class="err" id="hError"></span></p>
+        <input
+          type="text"
+          id="hexa"
+          onkeyup="fromHexa(this.value)"
+          onclick="copyText(this)"
+        />
+      </div>
+    </div>
+
+    <script>
+      var decimal = document.getElementById('decimal');
+      var binary = document.getElementById('binary');
+      var octal = document.getElementById('octal');
+      var hexa = document.getElementById('hexa');
+
+      function fromDecimal(decimalValue) {
+        var error = document.getElementById('dError');
+
+        if (decimalValue === '') {
+          emptyInputs(binary, octal, hexa);
+          error.innerHTML = '';
+          return;
+        }
+
+        if (/^[0-9]+$/.test(decimalValue)) {
+          binary.value = Number(decimalValue).toString(2);
+          octal.value = Number(decimalValue).toString(8);
+          hexa.value = Number(decimalValue).toString(16);
+          error.innerHTML = '';
+        } else {
+          error.innerHTML = 'not decimal integer';
+          emptyInputs(binary, octal, hexa);
+        }
+      }
+
+      function fromBinary(binaryValue) {
+        var error = document.getElementById('bError');
+
+        if (binaryValue === '') {
+          emptyInputs(decimal, hexa, octal);
+          error.innerHTML = '';
+          return;
+        }
+
+        if (/^[01]+$/.test(binaryValue)) {
+          binaryValue = '0b' + binaryValue;
+          decimal.value = Number(binaryValue).toString(10);
+          octal.value = Number(binaryValue).toString(8);
+          hexa.value = Number(binaryValue).toString(16);
+          error.innerHTML = '';
+        } else {
+          error.innerHTML = 'not binary integer';
+          emptyInputs(decimal, hexa, octal);
+        }
+      }
+
+      function fromOctal(octalValue) {
+        var error = document.getElementById('oError');
+
+        if (octalValue === '') {
+          emptyInputs(decimal, binary, hexa);
+          error.innerHTML = '';
+          return;
+        }
+
+        if (/^[0-7]+$/.test(octalValue)) {
+          octalValue = '0o' + octalValue;
+          binary.value = Number(octalValue).toString(2);
+          decimal.value = Number(octalValue).toString(10);
+          hexa.value = Number(octalValue).toString(16);
+          error.innerHTML = '';
+        } else {
+          error.innerHTML = 'not octal integer';
+          emptyInputs(decimal, binary, hexa);
+        }
+      }
+
+      function fromHexa(hexaValue) {
+        var error = document.getElementById('hError');
+
+        if (hexaValue === '') {
+          emptyInputs(decimal, binary, octal);
+          error.innerHTML = '';
+          return;
+        }
+
+        if (/^[0-9a-f]+$/.test(hexaValue)) {
+          hexaValue = '0x' + hexaValue;
+          binary.value = Number(hexaValue).toString(2);
+          octal.value = Number(hexaValue).toString(8);
+          decimal.value = Number(hexaValue).toString(10);
+          error.innerHTML = '';
+        } else {
+          error.innerHTML = 'not hexadecimal integer';
+          emptyInputs(decimal, binary, octal);
+        }
+      }
+
+      function emptyInputs(e1, e2, e3) {
+        e1.value = '';
+        e2.value = '';
+        e3.value = '';
+      }
+
+      function copyText(inputEle) {
+        inputEle.select();
+        document.execCommand('copy');
+      }
+    </script>
+  </body>
+</html>
