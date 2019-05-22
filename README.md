@@ -7,8 +7,8 @@ HTML CSS and Javascript Examples
 - Ticket Booking
 - Calculator
  
-## Snapshot
----
+## Screenshots
+
 ![nsconvertor](./assets/nsconvertor.png)
 ![tic-tac-toe](./assets/tic-tac-toe.png)
 ![color-picker](./assets/color-picker.png)
